@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>glassslipper</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="desktop">
+    <!-- Icons -->
+    <div class="icon" onclick="toggleWindow('window1', './folder1/folder1.html')">
+      <img src="./img/hyyh.png" alt="Folder Icon" />
+      <div class="icon-label">infires man</div>
+    </div>
+    <div class="icon" onclick="toggleWindow('window2', './folder2/folder2.html')">
+      <img src="./img/bomb.png" alt="Folder Icon" />
+      <div class="icon-label">heLL</div>
+    </div>
+
+    <!-- Dynamic Windows -->
+    <div id="window1" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        Gallery
+        <button class="close-btn" onclick="closeWindow('window1')">&times;</button>
+      </div>
+      <div class="window-body" id="window1-content"></div>
+    </div>
+
+    <!-- Window 2 (Inspo) -->
+    <div id="window2" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        heLL
+        <button class="close-btn" onclick="closeWindow('window2')">&times;</button>
+      </div>
+      <div class="window-body" id="window2-content">
+        <!-- folder2/folder2.html will load here dynamically -->
+      </div>
+    </div>
+
+    <!-- Folder A Window -->
+    <div id="folderAWindow" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        Folder A
+        <button class="close-btn" onclick="closeWindow('folderAWindow')">&times;</button>
+      </div>
+      <div class="window-body">
+        <div class="gallery-container">
+          <div class="gallery">
+            <img src="./folder2/img/sample1.jpg" alt="Sample A1" />
+            <div class="desc">Sample A1</div>
+          </div>
+          <div class="gallery">
+            <img src="./folder2/img/sample2.jpg" alt="Sample A2" />
+            <div class="desc">Sample A2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Folder B Window -->
+    <div id="folderBWindow" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        Folder B
+        <button class="close-btn" onclick="closeWindow('folderBWindow')">&times;</button>
+      </div>
+      <div class="window-body">
+        <div class="gallery-container">
+          <div class="gallery">
+            <img src="./folder2/img/sample3.jpg" alt="Sample B1" />
+            <div class="desc">Sample B1</div>
+          </div>
+          <div class="gallery">
+            <img src="./folder2/img/sample4.jpg" alt="Sample B2" />
+            <div class="desc">Sample B2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fullscreen Preview -->
+    <div class="fullscreen-preview" id="fullscreenPreview" onclick="closePreview(event)">
+      <img id="fullscreenImg" src="" alt="Preview Image" />
+      <span class="close-fullscreen" onclick="closePreview(event)">&times;</span>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+      <div class="taskbar-apps">
+        <div class="taskbar-app" onclick="toggleWindow('window1', './folder1/folder1.html')">Gallery</div>
+        <div class="taskbar-app" onclick="toggleWindow('window2', './folder2/folder2.html')">Inspo</div>
+      </div>
+      <div class="clock" id="clock">18:00</div>
+      <div class="taskbar-app" onclick="toggleWindow('screenTimeWindow')">Screen Time</div>
+    </div>
+
+    <!-- Screen Time Window -->
+    <div id="screenTimeWindow" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        Screen Time
+        <button class="close-btn" onclick="toggleWindow('screenTimeWindow')">&times;</button>
+      </div>
+      <div class="window-body">
+        <p>
+          You have <span id="timeLeftText">15 minutes 0 seconds</span> left of
+          using the desktop today.
+        </p>
+        <p id="countdownTimer">15:00</p>
+        <a href="#" id="extendLink">Extend time limit?</a>
+      </div>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup" class="popup-overlay" style="display: none;">
+      <div class="popup-box">
+        <p>Error: You don't have access to this function.</p>
+        <button onclick="closeErrorPopup()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleWindow(id, contentUrl = null) {
+      const win = document.getElementById(id);
+      if (!win) return;
+
+      // Toggle display
+      if (win.style.display === 'block') {
+        win.style.display = 'none';
+      } else {
+        win.style.display = 'block';
+        win.style.zIndex = Date.now();
+
+        dragElement(win);
+
+        if (contentUrl) {
+          // Load content inside the content div with id `${id}-content`
+          const contentDiv = document.getElementById(id + '-content');
+          if (contentDiv) {
+            fetch(contentUrl)
+              .then((res) => res.text())
+              .then((html) => {
+                contentDiv.innerHTML = html;
+              });
+          }
+        }
+      }
+    }
+
+    function closeWindow(id) {
+      const win = document.getElementById(id);
+      if (win) {
+        win.style.display = 'none';
+      }
+    }
+
+    function dragElement(elmnt) {
+      const header = elmnt.querySelector('.window-header');
+      let pos1 = 0,
+        pos2 = 0,
+        pos3 = 0,
+        pos4 = 0;
+      if (header) header.onmousedown = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+        elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+
+    function openPreview(src) {
+      const preview = document.getElementById('fullscreenPreview');
+      const img = document.getElementById('fullscreenImg');
+      img.src = src;
+      preview.style.display = 'flex';
+      preview.style.zIndex = Date.now();
+    }
+
+    function closePreview(event) {
+      if (
+        !event ||
+        event.target.id === 'fullscreenPreview' ||
+        event.target.classList.contains('close-fullscreen')
+      ) {
+        document.getElementById('fullscreenPreview').style.display = 'none';
+        document.getElementById('fullscreenImg').src = '';
+      }
+    }
+
+    // Fake clock and countdown timer omitted here for brevity, add yours as needed
+  </script>
+</body>
+</html>

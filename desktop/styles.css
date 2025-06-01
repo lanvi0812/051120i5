@@ -1,0 +1,213 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #008080;
+}
+
+.desktop {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+.icon {
+  text-align: center;
+  width: 72px;
+  margin: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+.icon img {
+  width: 48px;
+  height: 48px;
+}
+
+.icon-label {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.window {
+  width: 600px;
+  height: 500px;
+  position: absolute;
+  top: 80px;
+  left: 80px;
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  display: none;
+  resize: both;
+  overflow: auto;
+}
+
+.window-header {
+  background-color: #ccc;
+  padding: 8px;
+  cursor: move;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.window-body {
+  padding: 10px;
+  position: relative;
+  height: calc(100% - 38px);
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.taskbar-app {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.gallery-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.gallery {
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.desc {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Fullscreen Image Preview */
+.fullscreen-preview {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: zoom-out;
+}
+
+.fullscreen-preview img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  border-radius: 8px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.close-fullscreen {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  font-size: 36px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  text-shadow: 0 0 8px black;
+  pointer-events: auto;
+}
+
+/* Screen Time Countdown Styling */
+#screenTimeWindow .window-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+#countdownTimer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #c0392b;
+}
+
+#extendLink {
+  color: #3498db;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 🔐 Make Screen Time window fixed size */
+#screenTimeWindow {
+  width: 300px;
+  height: 200px;
+  resize: none !important;
+}
+
+/* 🚫 Custom popup styling */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #0003;
+  max-width: 90%;
+  text-align: center;
+}
+
+.popup-box button {
+  margin-top: 15px;
+  padding: 6px 12px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.popup-box button:hover {
+  background: #555;
+}
+
