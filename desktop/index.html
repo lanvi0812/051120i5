@@ -10,12 +10,27 @@
   <div class="desktop">
     <!-- Icons -->
     <div class="icon" onclick="toggleWindow('window1', './folder1/folder1.html')">
-      <img src="./img/hyyh.png" alt="Folder Icon" />
+      <img src="../img/folder.webp" alt="Folder Icon" />
       <div class="icon-label">infires man</div>
     </div>
     <div class="icon" onclick="toggleWindow('window2', './folder2/folder2.html')">
-      <img src="./img/bomb.png" alt="Folder Icon" />
+      <img src="../img/folder.webp" alt="Folder Icon" />
       <div class="icon-label">heLL</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('window3', './folder3/folder3.html')">
+      <img src="../img/folder.webp" alt="Folder Icon" />
+      <div class="icon-label">Explorer</div>
+    </div>
+
+        <div class="icon" onclick="toggleWindow('window5', './folder5/folder5.html')">
+      <img src="../img/folder.webp" alt="Folder Icon" />
+      <div class="icon-label">iTunes</div>
+    </div>
+
+        <div class="icon" onclick="toggleWindow('window4', './folder4/folder4.html')">
+      <img src="../img/folder.webp" alt="Folder Icon" />
+      <div class="icon-label">iMessage</div>
     </div>
 
     <!-- Dynamic Windows -->
@@ -33,10 +48,34 @@
         heLL
         <button class="close-btn" onclick="closeWindow('window2')">&times;</button>
       </div>
-      <div class="window-body" id="window2-content">
-        <!-- folder2/folder2.html will load here dynamically -->
-      </div>
+      <div class="window-body" id="window2-content"></div>
     </div>
+
+        <div id="window3" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        internet explorer
+        <button class="close-btn" onclick="closeWindow('window3')">&times;</button>
+      </div>
+      <div class="window-body" id="window3-content"></div>
+    </div>
+
+
+        <div id="window4" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        iMessage
+        <button class="close-btn" onclick="closeWindow('window4')">&times;</button>
+      </div>
+      <div class="window-body" id="window4-content"></div>
+    </div>
+
+        <div id="window5" class="window draggable resizable" style="display:none;">
+      <div class="window-header">
+        iTunes
+        <button class="close-btn" onclick="closeWindow('window5')">&times;</button>
+      </div>
+      <div class="window-body" id="window5-content"></div>
+    </div>
+
 
     <!-- Folder A Window -->
     <div id="folderAWindow" class="window draggable resizable" style="display:none;">
@@ -205,7 +244,39 @@
       }
     }
 
-    // Fake clock and countdown timer omitted here for brevity, add yours as needed
+      let fakeTime = new Date();
+    fakeTime.setHours(18, 0, 0, 0);
+    function updateFakeClock() {
+      fakeTime.setMinutes(fakeTime.getMinutes() + 1);
+      const h = fakeTime.getHours().toString().padStart(2, '0');
+      const m = fakeTime.getMinutes().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}`;
+    }
+    updateFakeClock();
+    setInterval(updateFakeClock, 10000);
+
+    let totalSeconds = 15 * 60;
+    function updateCountdown() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      document.getElementById("countdownTimer").textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      document.getElementById("timeLeftText").textContent = `${minutes} minute${minutes !== 1 ? 's' : ''} ${seconds} second${seconds !== 1 ? 's' : ''}`;
+      if (totalSeconds > 0) totalSeconds--;
+    }
+    setInterval(updateCountdown, 1000);
+
+    document.getElementById('extendLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      showErrorPopup();
+    });
+
+    function showErrorPopup() {
+      document.getElementById('errorPopup').style.display = 'flex';
+    }
+
+    function closeErrorPopup() {
+      document.getElementById('errorPopup').style.display = 'none';
+    }
   </script>
 </body>
 </html>
