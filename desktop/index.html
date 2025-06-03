@@ -137,15 +137,23 @@
       <span class="close-fullscreen" onclick="closePreview(event)">&times;</span>
     </div>
 
-    <!-- Taskbar -->
-    <div class="taskbar">
-      <div class="taskbar-apps">
-        <div class="taskbar-app" onclick="toggleWindow('window1', './folder1/folder1.html')">Gallery</div>
-        <div class="taskbar-app" onclick="toggleWindow('window2', './folder2/folder2.html')">Inspo</div>
-      </div>
-      <div class="clock" id="clock">18:00</div>
-      <div class="taskbar-app" onclick="toggleWindow('screenTimeWindow')">Screen Time</div>
+
+<!-- Taskbar -->
+<div class="taskbar">
+  <div class="start-menu-container">
+    <div class="taskbar-app start-button" onclick="toggleStartMenu()">Start</div>
+    <div id="startMenu" class="start-menu" style="display: none;">
+      <ul>
+        <li class="disabled">My Computer</li>
+        <li class="disabled">Documents</li>
+        <li class="disabled">Control Panel</li>
+        <li class="active-option" onclick="location.href='back.html'">Back</li>
+      </ul>
     </div>
+  </div>
+  <div class="clock" id="clock">18:00</div>
+  <div class="taskbar-app" onclick="toggleWindow('screenTimeWindow')">Screen Time</div>
+</div>
 
     <!-- Screen Time Window -->
     <div id="screenTimeWindow" class="window draggable resizable" style="display:none;">
@@ -365,6 +373,12 @@ function highlightFolder(el) {
 
   // Attach the listener
   document.addEventListener('click', removeHighlightOnClickOutside);
+}
+
+
+function toggleStartMenu() {
+  const menu = document.getElementById('startMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
 

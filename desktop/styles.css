@@ -596,3 +596,40 @@ body {
   line-height: 1.5;
   font-size: 1em;
 }
+
+.start-menu {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  background-color: #f0f0f0;
+  border: 1px solid #999;
+  width: 160px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  font-family: sans-serif;
+}
+
+.start-menu ul {
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+}
+
+.start-menu li {
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.start-menu li.disabled {
+  color: #999;
+  pointer-events: none;
+}
+
+.start-menu li.active-option {
+  color: #000;
+  cursor: pointer;
+}
+
+.start-menu li.active-option:hover {
+  background-color: #cceeff;
+}
