@@ -138,12 +138,16 @@
     <div class="taskbar">
       <div class="taskbar-left">
         <div class="taskbar-app start-button" onclick="toggleStartMenu()">⬅</div>
-        <div class="taskbar-app" onclick="toggleWindow('screenTimeWindow')">Screen Time</div>
+        <!-- Clear overrideDone upon logging out, then navigate to index.html -->
+        <div class="taskbar-app" onclick="localStorage.removeItem('overrideDone'); toggleWindow('screenTimeWindow')">Screen Time</div>
       </div>
       <div class="clock" id="clock">18:00</div>
       <div id="startMenu" class="start-menu" style="display: none;">
         <ul>
-          <li class="active-option" onclick="location.href='../../index.html'">Log Out</li>
+          <li class="active-option"
+              onclick="localStorage.removeItem('overrideDone'); location.href='../../index.html'">
+            Log Out
+          </li>
         </ul>
       </div>
     </div>
@@ -188,12 +192,17 @@
   </div>
 
   <script>
+    // If this page was loaded immediately after index.html, clear any previous override state
+    if (document.referrer.endsWith('login.html')) {
+      localStorage.removeItem('overrideDone');
+    }
+
     let zIndexCounter = 1000;
 
-    // Track override
+    // Track whether override sequence has already run
     const wasOverridden = localStorage.getItem('overrideDone') === 'true';
 
-    // Set initial countdown only if not overridden yet
+    // Only start countdown if not already overridden
     let totalSeconds = wasOverridden ? 0 : 7 * 60;
 
     function bringToFront(win) {
@@ -295,6 +304,7 @@
       document.getElementById("timeLeftText").textContent =
         `${minutes} minute${minutes !== 1 ? 's' : ''} ${seconds} second${seconds !== 1 ? 's' : ''}`;
 
+      // At 15 seconds, disable close button
       if (totalSeconds === 15) {
         const closeBtn = document.getElementById('closeScreenTimeBtn');
         closeBtn.onclick = null;
@@ -302,6 +312,7 @@
         closeBtn.style.pointerEvents = 'none';
       }
 
+      // When countdown hits zero, show override popup
       if (totalSeconds === 0) {
         clearInterval(countdownInterval);
         document.getElementById('overridePopup').style.display = 'flex';
@@ -314,12 +325,12 @@
     if (!wasOverridden) {
       countdownInterval = setInterval(updateCountdown, 1000);
     } else {
-      // Immediately show override popup if reloaded after override
+      // If override already done, show override immediately
       document.getElementById('overridePopup').style.display = 'flex';
       bringToFront(document.getElementById('overridePopup'));
     }
 
-    // "Extend your time limit?" → same error popup
+    // “Extend your time limit?” → show error popup again
     document.getElementById('extendLink').addEventListener('click', function(e) {
       e.preventDefault();
       showErrorPopup();
@@ -333,7 +344,7 @@
       document.getElementById('errorPopup').style.display = 'none';
     }
 
-    // Override popup OK: duplicate OK buttons then reload
+    // Override popup OK: clone “OK” buttons then reload
     document.getElementById('overrideOkBtn').addEventListener('click', function() {
       const popupBox = document.querySelector('#overridePopup .popup-box');
       for (let i = 0; i < 10; i++) {
@@ -356,7 +367,6 @@
     // ----------------- POST-OVERRIDE BEHAVIOR -----------------
     window.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('overrideDone') === 'true') {
-        // Start sequence immediately after override
         animateClockToZero();
         document.getElementById('zeroTimePopup').style.display = 'flex';
         bringToFront(document.getElementById('zeroTimePopup'));
@@ -388,6 +398,7 @@
       const sheets = Array.from(document.styleSheets).filter(ss => {
         try { return ss.cssRules && ss.cssRules.length > 0; } catch { return false; }
       });
+      // Speed up deletion: now remove one rule every 1 second
       const eraseInterval = setInterval(() => {
         if (sheets.length === 0) {
           clearInterval(eraseInterval);
@@ -406,7 +417,7 @@
         if (ss.cssRules.length === 0) {
           sheets.splice(sheetIdx, 1);
         }
-      }, 2000);
+      }, 1000);
     }
 
     function injectBasicCss() {
