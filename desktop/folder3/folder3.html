@@ -1,0 +1,32 @@
+<div class="gallery-container">
+  <div class="fake-browser">
+  <div class="browser-controls">
+    <button id="backBtn">←</button>
+    <button id="forwardBtn">→</button>
+    <button id="homeBtn">♥</button>
+
+    <select id="siteSelector">
+      <option value="google">Google</option>
+      <option value="tumblr">Tumblr</option>
+      <option value="wattpad">Wattpad</option>
+      <option value="youtube">YouTube</option>
+      <option value="fanfiction">Fanfiction.net</option>
+    </select>
+
+    <button id="goBtn" onclick="alert('Error: This System Is Expired')">Go</button>
+  </div>
+
+  <div class="image-display" id="siteImage" style="position: relative; height: 400px; width: 100%; background: #111; color: #fff; font-family: monospace; font-size: 18px; text-align: center; overflow: hidden;">
+
+    <!--background image -->
+    <img id="backgroundImg" src="../../img/wallpaper.jpg" alt="Site Preview" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 1;">
+
+    <!-- Error message overlay -->
+    <div style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); padding: 10px;">
+      <p><strong>ERROR 404:</strong><br> This site could not be loaded.<br><em>Please check your connection or try again later.</em></p>
+    </div>
+  </div>
+</div>
+
+
+</div>

@@ -1,10 +1,13 @@
+<div class="gallery-container">
 <div class="folder-container">
-  <div class="folder" onclick="toggleWindow('folderAWindow')">
-    <img src="../img/folder.png" alt="Folder Icon" />
-    <div class="desc">Folder A</div>
+  <div id="folderA" class="folder" onclick="highlightFolder(this)" ondblclick="toggleWindow('folderAWindow', './folder2/folderA.html')">
+    <img src="../../img/pddf.png" alt="Folder Icon" />
+    <div class="folder-label">spelling hw.pdf</div>
   </div>
-  <div class="folder" onclick="toggleWindow('folderBWindow')">
-    <img src="../img/folder.png" alt="Folder Icon" />
-    <div class="desc">Folder B</div>
+  <div id="folderB" class="folder" onclick="highlightFolder(this)" ondblclick="toggleWindow('folderBWindow', './folder2/folderB.html')">
+    <img src="../../img/word.png" alt="Folder Icon" />
+    <div class="folder-label">research.doc</div>
   </div>
+  
+</div>
 </div>

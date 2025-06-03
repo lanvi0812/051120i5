@@ -2,7 +2,8 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background-image: url("../img/wallpaper.jpg");
+  background-image: url("../img/wp.gif");
+  background-color: #000;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -16,22 +17,29 @@ body {
 }
 
 /* Icons */
-.icon {
+.icon, .folder {
   text-align: center;
   width: 72px;
-  margin: 20px;
+  margin: 10px;
   cursor: pointer;
   color: white;
+  padding: 10px;
 }
 
-.icon img {
+.icon img, .folder img {
   width: 48px;
   height: 48px;
 }
 
 .icon-label {
   font-size: 12px;
-  margin-top: 4px;
+  margin-top: 5px;
+}
+
+.folder-label {
+  font-size: 12px;
+  margin-top: 5px;
+  color: black;
 }
 
 /* Windows */
@@ -67,6 +75,20 @@ body {
   overflow: auto;
 }
 
+
+/* Scrollbars*/
+.window-body::-webkit-scrollbar, #window1-content.window-body::-webkit-scrollbar {
+  width: 8px;
+}
+.window-body::-webkit-scrollbar-thumb, #window1-content.window-body::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 4px;
+}
+.window-body::-webkit-scrollbar-thumb:hover, #window1-content.window-body::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+/* Close button */
 .close-btn {
   background: none;
   border: none;
@@ -74,21 +96,16 @@ body {
   cursor: pointer;
 }
 
-/* Taskbar styled Windows 95 style */
+/* Taskbar */
 .taskbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 32px;
-  
-  /* Windows 95 bevel style background and border */
   background: #c0c0c0;
   border: 2px solid #808080;
-  box-shadow:
-    inset -2px -2px 0 #ffffff,
-    inset 2px 2px 0 #000000;
-    
+  box-shadow: inset -2px -2px 0 #ffffff, inset 2px 2px 0 #000000;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,18 +116,14 @@ body {
   user-select: none;
 }
 
-/* Taskbar apps */
 .taskbar-app {
   margin-right: 10px;
   cursor: pointer;
-  
-  /* Buttons in taskbar*/
   background: #c0c0c0;
   border-style: outset;
   border-width: 2px;
-  border-color: #ffffff #808080 #808080 #ffffff; /* top-left light, bottom-right dark bevel */
+  border-color: #ffffff #808080 #808080 #ffffff;
   padding: 2px 8px;
-  box-shadow: none;
   font-weight: normal;
   font-size: 13px;
   color: black;
@@ -118,43 +131,66 @@ body {
   align-items: center;
   user-select: none;
 }
-
 .taskbar-app:hover {
   background: #a0a0a0;
-  border-color: #808080 #ffffff #ffffff #808080; /* inverted bevel on hover */
+  border-color: #808080 #ffffff #ffffff #808080;
 }
 
 /* Gallery Container */
-.gallery-container {
+.gallery-container, .folder-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   max-height: 100%;
-  overflow-y: auto;
-  overflow: -moz-scrollbars-vertical; 
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
+/*custom scrollbar*/
+.gallery-container::-webkit-scrollbar {
+  width: 12px;
+  background: #c0c0c0;
+  border-left: 2px outset #ffffff;
+}
+.gallery-container::-webkit-scrollbar-track {
+  background: #c0c0c0;
+  border: 2px solid #808080;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #808080;
+  border-right-color: #808080;
+}
+.gallery-container::-webkit-scrollbar-thumb {
+  background: #a0a0a0;
+  border: 2px solid #808080;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #808080;
+  border-right-color: #808080;
+  min-height: 30px;
+}
+
+/* Gallery items */
 .gallery {
   width: 120px;
   text-align: center;
   cursor: pointer;
   flex-shrink: 0;
 }
-
 .gallery img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
+  width: auto;
+  height: 50px;
+  border-radius: 2px;
   border: 2px solid #808080;
   box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #000000;
 }
-
 .desc {
   font-size: 12px;
   margin-top: 4px;
+  color: #333;
 }
 
-/* Fullscreen Image Preview */
+/* Fullscreen Preview */
 .fullscreen-preview {
   display: none;
   position: fixed;
@@ -165,7 +201,6 @@ body {
   z-index: 9999;
   cursor: zoom-out;
 }
-
 .fullscreen-preview img {
   max-width: 95vw;
   max-height: 95vh;
@@ -174,7 +209,6 @@ body {
   user-select: none;
   pointer-events: none;
 }
-
 .close-fullscreen {
   position: fixed;
   top: 20px;
@@ -188,7 +222,7 @@ body {
   pointer-events: auto;
 }
 
-/* Screen Time Countdown Styling */
+/* Screen Time Styling */
 #screenTimeWindow .window-body {
   display: flex;
   flex-direction: column;
@@ -196,165 +230,109 @@ body {
   font-family: monospace;
   font-size: 14px;
 }
-
 #countdownTimer {
   font-size: 1.5rem;
   font-weight: bold;
   color: #c0392b;
 }
-
 #extendLink {
   color: #3498db;
   text-decoration: underline;
   cursor: pointer;
 }
-
-/* Fixed size for Screen Time window */
 #screenTimeWindow {
   width: 300px;
   height: 200px;
   resize: none !important;
 }
 
-/* Popup Styling */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.popup-box {
-  background: #fff;
-  padding: 20px 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #0003;
-  max-width: 90%;
-  text-align: center;
-}
-
-.popup-box button {
-  margin-top: 15px;
-  padding: 6px 12px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.popup-box button:hover {
-  background: #555;
-}
-
-/*Gallery Window with full border and bevel */
-#window1 {
-  border: 10px solid #c0c0c0;
+/* Windows style*/
+#window1, #window2, #window3, #window4, #window5, #window6, #folderAWindow, #folderBWindow, #bangtanWindow, #aestheticWindow, #folderCWindow {
+  border: 5px solid #c0c0c0;
   background-color: #f0f0f0;
-  box-shadow:
-    inset -2px -2px 0 #ffffff,
-    inset 2px 2px 0 #000000;
+  box-shadow: inset -2px -2px 0 #ffffff, inset 2px 2px 0 #000000;
   font-family: 'Tahoma', sans-serif;
 }
-
-/* Header */
-#window1 .window-header {
+#window1 .window-header, #window2 .window-header, #window3 .window-header, #window4 .window-header, #window5 .window-header, #window6 .window-header, 
+#folderAWindow .window-header, #folderBWindow .window-header,
+#bangtanWindow .window-header,
+#aestheticWindow .window-header, 
+#folderCWindow .window-header {
   background: #c0c0c0;
   border-bottom: 2px solid #808080;
   box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #000000;
   padding: 6px 8px;
 }
-
-/* Close Button */
-#window1 .close-btn {
+#window1 .close-btn, #window2 .close-btn, #window3 .close-btn, #window4 .close-btn, #window5 .close-btn ,#window6 .close-btn, 
+#folderAWindow .close-btn, #folderBWindow .close-btn,
+#bangtanWindow .close-btn,
+#aestheticWindow .close-btn,
+#folderCWindow .close-btn {
   background: #c0c0c0;
   border-style: outset;
   border-width: 2px;
-  border-color: #ffffff #808080 #808080 #ffffff; /* top-left light, bottom-right dark bevel */
+  border-color: #ffffff #808080 #808080 #ffffff;
   width: 24px;
   height: 24px;
-
   font-weight: bold;
   font-size: 16px;
   color: #000;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  box-shadow: none;
   cursor: pointer;
   user-select: none;
 }
-
-#window1 .close-btn:hover {
+#window1 .close-btn:hover, #window2 .close-btn:hover, #window3 .close-btn:hover, #window4 .close-btn:hover, #window5 .close-btn:hover, #window6 .close-btn:hover, 
+#folderAWindow .close-btn:hover, #folderBWindow .close-btn:hover,
+#bangtanWindow .close-btn:hover,
+#aestheticWindow .close-btn:hover,
+#folderCWindow .close-btn:hover {
   background: #a0a0a0;
-  border-color: #808080 #ffffff #ffffff #808080; /* inverted bevel on hover */
+  border-color: #808080 #ffffff #ffffff #808080;
 }
-
-/* Window Body */
-#window1 .window-body {
+#window1 .window-body, #window2 .window-body, #window3 .window-body, #window4 .window-body, #window5 .window-body, #window6 .window-body, 
+#folderAWindow .window-body, #folderBWindow .window-body,
+#bangtanWindow .window-body,
+#aestheticWindow .window-body,
+#folderCWindow .window-body {
   background-color: #e0e0e0;
   box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
   padding: 10px;
-  overflow-y: auto; /* show vertical scrollbar */
-  height: 400px; /* fixed height example */
-
-  scrollbar-gutter: stable; /* keep scrollbar gutter always visible */
-
-  /* Firefox */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: #a0a0a0 #c0c0c0;
 }
-
-/* WebKit browsers */
-#window1 .window-body::-webkit-scrollbar {
+#window1 .window-body::-webkit-scrollbar, #window2 .window-body::-webkit-scrollbar, #window3 .window-body::-webkit-scrollbar, #window4 .window-body::-webkit-scrollbar, #window5 .window-body::-webkit-scrollbar, #window6 .window-body::-webkit-scrollbar, 
+#folderAWindow .window-body::-webkit-scrollbar, #folderBWindow .window-body::-webkit-scrollbar,
+#bangtanWindow .window-body::-webkit-scrollbar,
+#aestheticWindow .window-body::-webkit-scrollbar,
+#folderCWindow .window-body::-webkit-scrollbar {
   width: 12px;
   background: #c0c0c0;
-  border-left: 2px outset #ffffff; /* left bevel edge */
 }
-
-#window1 .window-body::-webkit-scrollbar-track {
-  background: #c0c0c0;
-  border: 2px solid #808080;
-  box-shadow: none;
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-bottom-color: #808080;
-  border-right-color: #808080;
-}
-
-#window1 .window-body::-webkit-scrollbar-thumb {
+#window1 .window-body::-webkit-scrollbar-thumb, #window2 .window-body::-webkit-scrollbar-thumb, #window3 .window-body::-webkit-scrollbar-thumb, #window4 .window-body::-webkit-scrollbar-thumb, #window5 .window-body::-webkit-scrollbar-thumb, #window6 .window-body::-webkit-scrollbar-thumb, 
+#folderAWindow .window-body::-webkit-scrollbar-thumb, #folderBWindow .window-body::-webkit-scrollbar-thumb,
+#folderCWindow .window-body::-webkit-scrollbar-thumb {
   background: #a0a0a0;
   border: 2px solid #808080;
-  box-shadow: none;
-  min-height: 30px;
   border-top-color: #ffffff;
   border-left-color: #ffffff;
   border-bottom-color: #808080;
   border-right-color: #808080;
 }
 
-/*nav bar */
+/* Navbar */
 .navbar {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 32px;
-
   background: #c0c0c0;
   border: 2px solid #808080;
-  box-shadow:
-    inset -2px -2px 0 #ffffff,
-    inset 2px 2px 0 #000000;
-
+  box-shadow: inset -2px -2px 0 #ffffff, inset 2px 2px 0 #000000;
   display: flex;
   align-items: center;
   padding: 0 10px;
@@ -362,7 +340,6 @@ body {
   user-select: none;
   z-index: 10000;
 }
-
 .navbar button {
   background: #c0c0c0;
   border-style: outset;
@@ -377,112 +354,245 @@ body {
   align-items: center;
   user-select: none;
 }
-
 .navbar button:hover {
   background: #a0a0a0;
   border-color: #808080 #ffffff #ffffff #808080;
 }
 
-.gallery {
-  width: 120px;
-  text-align: center;
-}
-
-.gallery img {
-  width: 100%;
-  cursor: pointer;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-}
-
-.gallery img:hover {
-  border-color: #888;
-}
-
-.desc {
-  font-size: 12px;
-  margin-top: 4px;
-  color: #333;
-}
-
-/* Fullscreen Preview */
-.fullscreen-preview {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.fullscreen-preview img {
-  max-width: 90%;
-  max-height: 90%;
-  border: 4px solid white;
-  box-shadow: 0 0 20px rgba(255,255,255,0.5);
-}
-
-.close-fullscreen {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  font-size: 32px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Popup Overlay (Error Message) */
+/* Popup Styling */
 .popup-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10000;
 }
 
+/* style popup box */
 .popup-box {
-  background: #fff;
-  padding: 20px 30px;
+  background: #c0c0c0;
+  padding: 20px;
   border: 2px solid #000;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
-  font-family: 'Tahoma', sans-serif;
-  font-size: 14px;
+  box-shadow:
+    inset -2px -2px #808080,
+    inset 2px 2px #ffffff,
+    4px 4px 0 rgba(0, 0, 0, 0.4);
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 13px;
   text-align: center;
+  width: 300px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
+/* style button */
 .popup-box button {
-  margin-top: 10px;
-  padding: 5px 15px;
-  border: 2px outset #c0c0c0;
-  background-color: #e0e0e0;
+  margin-top: 15px;
+  padding: 4px 12px;
+  border: 2px solid;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  background-color: #c0c0c0;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 13px;
   cursor: pointer;
-  font-family: 'Tahoma', sans-serif;
 }
 
-.popup-box button:hover {
+/* Pressed button look */
+.popup-box button:active {
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  padding: 5px 11px; /* Adjust to simulate "pressed" */
+}
+
+
+.fake-browser {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.browser-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   background-color: #d0d0d0;
+  padding: 6px 10px;
+  font-family: 'Tahoma', sans-serif;
+  border-bottom: 2px solid #808080;
 }
 
-/* Scrollbars for window-body */
-.window-body::-webkit-scrollbar {
-  width: 8px;
+.browser-controls button,
+.browser-controls select {
+  font-size: 13px;
+  padding: 4px 8px;
+  border: 2px outset #c0c0c0;
+  background-color: #f0f0f0;
+  cursor: pointer;
 }
 
-.window-body::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 4px;
+.browser-controls button:hover,
+.browser-controls select:hover {
+  background-color: #dcdcdc;
 }
 
-.window-body::-webkit-scrollbar-thumb:hover {
-  background-color: #666;
+#browserFrame {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+.image-display {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.image-display img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*iTunes*/
+
+.folder4-wrapper {
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  background: #c0c0c0;
+  height: 100%;
+  width: 100%;
+  color: black;
+}
+
+.folder4-wrapper .itunes-container {
+  display: flex;
+  height: 100vh;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+}
+
+.folder4-wrapper .column {
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  background-color: #dfdfdf;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.folder4-wrapper .library {
+  width: 15%;
+}
+
+.folder4-wrapper .artists {
+  width: 25%;
+}
+
+.folder4-wrapper .songs {
+  width: 60%;
+  background-color: #ffffff;
+}
+
+.folder4-wrapper h3 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #808080;
+  padding-bottom: 4px;
+}
+
+.folder4-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.folder4-wrapper ul li {
+  padding: 4px 6px;
+  cursor: pointer;
+  font-size: 12px;
+  border: 2px solid transparent;
+}
+
+.folder4-wrapper ul li:hover {
+  background-color: #000080;
+  color: #ffffff;
+}
+
+.folder4-wrapper ul li.active {
+  background-color: #000080;
+  color: white;
+  border: 2px inset #808080;
+}
+
+.folder4-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.folder4-wrapper th,
+.folder4-wrapper td {
+  padding: 6px 8px;
+  border: 1px solid #808080;
+  text-align: left;
+}
+
+.folder4-wrapper audio {
+  width: 100%;
+  margin-top: 2px;
+  background-color: #c0c0c0;
+  border: 2px inset #808080;
+  height: 20px;
+}
+
+.folder4-wrapper thead {
+  background-color: #d4d0c8;
+  color: black;
+  font-weight: bold;
+  border-bottom: 2px solid #404040;
+}
+
+.icon.highlighted, .folder.highlighted {
+  background-color: rgba(166, 202, 241, 0.5); /* transparent blue */
+  border-radius: 6px;
+}
+
+/*research doc*/
+
+.research-doc {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  background-color: white;
+  overflow-y: auto;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: "MS Sans Serif", sans-serif;
+}
+
+.research-doc-content h1 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.research-doc-content p {
+  margin-bottom: 1em;
+  line-height: 1.5;
+  font-size: 1em;
 }

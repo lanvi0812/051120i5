@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>theyearis20i5</title>
   <style>
     * {
@@ -17,13 +17,16 @@
       justify-content: center;
       align-items: center;
       background: linear-gradient(to bottom, #cfd8e1, #9baab3);
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     .login-container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
     }
 
     .profile-link {
@@ -32,34 +35,95 @@
       height: 10rem;
       max-width: 30vw;
       max-height: 30vw;
-      border-radius: 1rem;
+      border-radius: 0;
       overflow: hidden;
       cursor: pointer;
-      border: 1.5px solid #bbb;
-      background: linear-gradient(135deg, #f0f0f0, #999);
-      padding: 2px;
-      box-shadow: inset 0 0 2px #ffffff80, 0 2px 5px rgba(0, 0, 0, 0.2);
+      padding: 4px;
+      border: 2px solid #808080;
+      box-shadow: 
+        inset 2px 2px 0 #ffffff,
+        inset -2px -2px 0 #808080,
+        2px 2px 5px rgba(0, 0, 0, 0.2);
     }
 
     .profile-link img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 0.9rem;
       display: block;
+      border: 2px solid #aaa;
+      box-shadow:
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #000000;
     }
 
     .username {
-      margin-top: 1rem;
       font-size: 1.2rem;
       font-weight: 500;
       color: #333;
-      text-shadow: 0 1px 0 #fff;
     }
 
-    .profile-link:hover {
-      filter: brightness(1.05);
+    .password-input {
+      width: 200px;
+      padding: 6px;
+      font-size: 1rem;
+      border: 2px solid #808080;
+      background: white;
+      box-shadow: 
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #404040;
+      outline: none;
+      text-align: center;
     }
+
+    .hint-link {
+      font-size: 0.9rem;
+      color: blue;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Popup style */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .popup-window {
+      background: #c0c0c0;
+      padding: 1rem;
+      border: 2px solid #808080;
+      box-shadow:
+        inset 2px 2px 0 #ffffff,
+        inset -2px -2px 0 #808080,
+        2px 2px 5px rgba(0, 0, 0, 0.3);
+      max-width: 300px;
+      font-size: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .popup-window button {
+      margin-top: 1rem;
+      padding: 4px 8px;
+      background: #e0e0e0;
+      border: 2px solid #808080;
+      box-shadow:
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #404040;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -68,8 +132,26 @@
     <a href="./desktop/index.html" class="profile-link">
       <img src="./img/star.png" alt="User" />
     </a>
-    <p class="username">./xMidni9htEscapee</p>
+    <p class="username">./whali5n2</p>
+
+    <input type="password" class="password-input" placeholder="Enter password" />
+
+    <div class="hint-link" onclick="showHint()">Hint</div>
   </div>
+
+  <script>
+    function showHint() {
+      const popup = document.createElement('div');
+      popup.className = 'popup-overlay';
+      popup.innerHTML = `
+        <div class="popup-window">
+          <p>Check the folder names... one of them hides the truth.</p>
+          <button onclick="this.closest('.popup-overlay').remove()">Close</button>
+        </div>
+      `;
+      document.body.appendChild(popup);
+    }
+  </script>
 
 </body>
 </html>
