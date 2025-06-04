@@ -427,18 +427,27 @@
         if (ss.cssRules.length === 0) {
           sheets.splice(sheetIdx, 1);
         }
-      }, 2000);
+      }, 1000);
 
-      // Add a random rule every 4 seconds (so deletion and addition interleave)
+      // Add a random scale or color rule every 3 seconds (interleaving with deletions)
       var addInterval = setInterval(() => {
         const tempSheet = document.getElementById('tempRules').sheet;
         const randomSelector = ['body', '.desktop', '.icon', '.window', '.taskbar', '#clock'][Math.floor(Math.random() * 6)];
-        const randomProperty = ['background-color', 'color', 'border', 'font-size', 'margin', 'padding'][Math.floor(Math.random() * 6)];
-        const randomValue = ['red', 'blue', '5px solid black', '20px', '10px', '15px'][Math.floor(Math.random() * 6)];
-        try {
-          tempSheet.insertRule(`${randomSelector} { ${randomProperty}: ${randomValue}; }`, tempSheet.cssRules.length);
-        } catch {}
-      }, 4000);
+        if (Math.random() < 0.5) {
+          // Add a scale rule
+          const randomScale = (0.5 + Math.random()).toFixed(2);
+          try {
+            tempSheet.insertRule(`${randomSelector} { transform: scale(${randomScale}); }`, tempSheet.cssRules.length);
+          } catch {}
+        } else {
+          // Add a color rule
+          const colorChoices = ['red', 'blue', 'green', 'purple', 'orange', 'teal'];
+          const randomColor = colorChoices[Math.floor(Math.random() * colorChoices.length)];
+          try {
+            tempSheet.insertRule(`${randomSelector} { color: ${randomColor}; }`, tempSheet.cssRules.length);
+          } catch {}
+        }
+      }, 3000);
     }
 
     function injectBasicCss() {
@@ -454,9 +463,9 @@
 
     function slowlyRemovePageElements() {
       const container = document.querySelector('.desktop');
-      //overridePopup is treated like any other .desktop child
+      // Keep overridePopup fixed; remove other .desktop children
       let children = Array.from(container.children).filter(el =>
-        !['zeroTimePopup'].includes(el.id)
+        !['overridePopup','zeroTimePopup'].includes(el.id)
       );
       let idx = 0;
       const removalInterval = setInterval(() => {
