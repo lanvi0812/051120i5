@@ -193,7 +193,7 @@
 
   <script>
     // If this page was loaded immediately after index.html, clear any previous override state
-    if (document.referrer.endsWith('login.html')) {
+    if (document.referrer.endsWith('https://lanvi0812.github.io/051120i5/')) {
       localStorage.removeItem('overrideDone');
     }
 
@@ -283,7 +283,7 @@
       }
     }
 
-    // ----------------- CLOCK SETUP -----------------
+    // clock set up
     let fakeTime = new Date();
     fakeTime.setHours(18, 0, 0, 0);
     function updateFakeClock() {
@@ -295,7 +295,7 @@
     updateFakeClock();
     setInterval(updateFakeClock, 10000);
 
-    // ----------------- SCREEN TIME COUNTDOWN -----------------
+    // screen time count down
     let countdownInterval;
 
     function updateCountdown() {
@@ -364,7 +364,7 @@
       }, 1500);
     });
 
-    // ----------------- POST-OVERRIDE BEHAVIOR -----------------
+    // post-override behaviour
     window.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('overrideDone') === 'true') {
         animateClockToZero();
