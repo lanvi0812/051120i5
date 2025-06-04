@@ -174,7 +174,7 @@
     </div>
 
     <!-- Override Popup -->
-    <div id="overridePopup" style="display:none;">
+    <div id="overridePopup" class="popup-overlay" style="display:none;">
       <div class="popup-box">
         <p>Override?</p>
         <button id="overrideOkBtn">OK</button>
@@ -454,8 +454,9 @@
 
     function slowlyRemovePageElements() {
       const container = document.querySelector('.desktop');
+      //overridePopup is treated like any other .desktop child
       let children = Array.from(container.children).filter(el =>
-        !['overridePopup', 'zeroTimePopup'].includes(el.id)
+        !['zeroTimePopup'].includes(el.id)
       );
       let idx = 0;
       const removalInterval = setInterval(() => {
@@ -464,7 +465,7 @@
           idx++;
         } else {
           clearInterval(removalInterval);
-          // Once all .desktop children are gone, un-hide the “continue?” link
+          // once all .desktop children are gone, un-hide the “continue?” link
           document.getElementById('continueLink').style.display = 'block';
         }
       }, 7000);
