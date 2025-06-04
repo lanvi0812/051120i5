@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>glassslipper</title>
   <link rel="stylesheet" href="styles.css" />
+  <style id="tempRules"></style>
 </head>
 <body>
   <div class="desktop">
@@ -186,10 +187,10 @@
         <p>You have 0 seconds left</p>
       </div>
     </div>
-
-    <!-- Continue link -->
-    <a href="https://www.google.com" id="continueLink" style="display:none;">continue?</a>
   </div>
+
+  <!-- Move “continue?” link outside of .desktop so it’s never removed -->
+  <a href="https://www.google.com" id="continueLink" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); color: blue; text-decoration: underline; font-size: 16px;">continue?</a>
 
   <script>
     // If this page was loaded immediately after index.html, clear any previous override state
@@ -369,8 +370,14 @@
     window.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('overrideDone') === 'true') {
         animateClockToZero();
+
+        // Show “You have 0 seconds left” for 5 seconds, then hide it
         document.getElementById('zeroTimePopup').style.display = 'flex';
         bringToFront(document.getElementById('zeroTimePopup'));
+        setTimeout(() => {
+          document.getElementById('zeroTimePopup').style.display = 'none';
+        }, 5000);
+
         slowlyEraseCssRules();
         slowlyRemovePageElements();
       }
@@ -399,17 +406,19 @@
       const sheets = Array.from(document.styleSheets).filter(ss => {
         try { return ss.cssRules && ss.cssRules.length > 0; } catch { return false; }
       });
-      // Speed up deletion: now remove one rule every 1 second
+
+      // Remove one rule every 2 seconds
       const eraseInterval = setInterval(() => {
         if (sheets.length === 0) {
           clearInterval(eraseInterval);
+          clearInterval(addInterval);
           injectBasicCss();
           return;
         }
         const sheetIdx = Math.floor(Math.random() * sheets.length);
         const ss = sheets[sheetIdx];
         const rules = ss.cssRules;
-        if (rules.length === 0) {
+        if (!rules || rules.length === 0) {
           sheets.splice(sheetIdx, 1);
           return;
         }
@@ -418,7 +427,18 @@
         if (ss.cssRules.length === 0) {
           sheets.splice(sheetIdx, 1);
         }
-      }, 1000);
+      }, 2000);
+
+      // Add a random rule every 4 seconds (so deletion and addition interleave)
+      var addInterval = setInterval(() => {
+        const tempSheet = document.getElementById('tempRules').sheet;
+        const randomSelector = ['body', '.desktop', '.icon', '.window', '.taskbar', '#clock'][Math.floor(Math.random() * 6)];
+        const randomProperty = ['background-color', 'color', 'border', 'font-size', 'margin', 'padding'][Math.floor(Math.random() * 6)];
+        const randomValue = ['red', 'blue', '5px solid black', '20px', '10px', '15px'][Math.floor(Math.random() * 6)];
+        try {
+          tempSheet.insertRule(`${randomSelector} { ${randomProperty}: ${randomValue}; }`, tempSheet.cssRules.length);
+        } catch {}
+      }, 4000);
     }
 
     function injectBasicCss() {
@@ -435,7 +455,7 @@
     function slowlyRemovePageElements() {
       const container = document.querySelector('.desktop');
       let children = Array.from(container.children).filter(el =>
-        !['overridePopup', 'zeroTimePopup', 'continueLink'].includes(el.id)
+        !['overridePopup', 'zeroTimePopup'].includes(el.id)
       );
       let idx = 0;
       const removalInterval = setInterval(() => {
@@ -444,6 +464,7 @@
           idx++;
         } else {
           clearInterval(removalInterval);
+          // Once all .desktop children are gone, un-hide the “continue?” link
           document.getElementById('continueLink').style.display = 'block';
         }
       }, 7000);
