@@ -138,14 +138,14 @@
     <div class="taskbar">
       <div class="taskbar-left">
         <div class="taskbar-app start-button" onclick="toggleStartMenu()">⬅</div>
-        <!-- Clear overrideDone upon logging out, then navigate to index.html -->
+        <!-- Clear overrideDone upon logging out, then open Screen Time -->
         <div class="taskbar-app" onclick="localStorage.removeItem('overrideDone'); toggleWindow('screenTimeWindow')">Screen Time</div>
       </div>
       <div class="clock" id="clock">18:00</div>
       <div id="startMenu" class="start-menu" style="display: none;">
         <ul>
           <li class="active-option"
-              onclick="localStorage.removeItem('overrideDone'); href='https://lanvi0812.github.io/051120i5/'">
+              onclick="localStorage.removeItem('overrideDone'); location.href='https://lanvi0812.github.io/051120i5/'">
             Log Out
           </li>
         </ul>
@@ -159,7 +159,7 @@
         <button class="close-btn" id="closeScreenTimeBtn" onclick="closeWindow('screenTimeWindow')">&times;</button>
       </div>
       <div class="window-body">
-        <p>You have <span id="timeLeftText">7 minutes 0 seconds</span> left of using the desktop today.</p>
+        <p>You have <span id="timeLeftText">4 minutes 30 seconds</span> left of using the desktop today.</p>
         <a href="#" id="extendLink">Extend your time limit?</a>
       </div>
     </div>
@@ -203,7 +203,8 @@
     const wasOverridden = localStorage.getItem('overrideDone') === 'true';
 
     // Only start countdown if not already overridden
-    let totalSeconds = wasOverridden ? 0 : 7 * 60;
+    // Changed from 7*60 to 4*60 + 30 = 270 seconds
+    let totalSeconds = wasOverridden ? 0 : (4 * 60 + 30);
 
     function bringToFront(win) {
       zIndexCounter++;
